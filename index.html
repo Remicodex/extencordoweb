@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extencordoba — Kenangan Kelas</title>
+  <meta name="description" content="Website kenangan kelas Extencordoba 2024/2025">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FBF8F3;
+      --surface: #F3EDE1;
+      --border: #DDD0BB;
+      --text: #1C1409;
+      --text-muted: #7A6B55;
+      --text-faint: #B0A08A;
+      --accent: #B8732A;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(251,248,243,0.93);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px; height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px; font-weight: 600; letter-spacing: -0.3px;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500;
+      color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; font-size: 22px; color: var(--text); }
+
+    /* ── HERO ── */
+    #beranda {
+      min-height: 88vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 40px;
+    }
+    .hero-year {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-faint); margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(64px, 12vw, 120px);
+      font-weight: 500; line-height: 1; letter-spacing: -2px;
+      color: var(--text); margin-bottom: 20px;
+    }
+    .hero-desc {
+      font-size: 16px; color: var(--text-muted);
+      max-width: 440px; line-height: 1.75; margin-bottom: 40px;
+    }
+    .hero-divider { width: 48px; height: 1px; background: var(--accent); margin: 0 auto 44px; }
+    .hero-stats { display: flex; gap: 56px; }
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px; font-weight: 500; color: var(--text); line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-faint); margin-top: 5px;
+    }
+
+    /* ── SECTIONS ── */
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
+    .section-wrap.narrow { max-width: 820px; }
+    .section-bg { background: var(--surface); }
+
+    .section-tag {
+      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px; font-weight: 500; letter-spacing: -0.5px; line-height: 1.15;
+      margin-bottom: 40px;
+    }
+
+    /* ── GALLERY ── */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+    .filter-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 500; padding: 6px 18px;
+      border-radius: 20px; border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--text); color: var(--bg); border-color: var(--text);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .photo-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; transition: transform 0.2s;
+    }
+    .photo-card:hover { transform: translateY(-3px); }
+    .photo-card.hidden { display: none; }
+    .photo-thumb {
+      width: 100%; aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center; font-size: 44px;
+    }
+    .photo-info { padding: 13px 15px; }
+    .photo-title { font-size: 14px; font-weight: 500; color: var(--text); }
+    .photo-date { font-size: 12px; color: var(--text-faint); margin-top: 3px; }
+
+    /* ── MEMBERS ── */
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 14px;
+    }
+    .member-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 14px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .member-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .member-avatar {
+      width: 54px; height: 54px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 500; margin: 0 auto 12px;
+    }
+    .member-name { font-size: 13px; font-weight: 500; color: var(--text); }
+    .member-role { font-size: 11px; color: var(--text-faint); margin-top: 3px; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(28,20,9,0.65); z-index: 200;
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg); border-radius: 16px; padding: 36px;
+      max-width: 480px; width: 100%; position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 18px; right: 20px;
+      background: none; border: none; font-size: 24px;
+      color: var(--text-muted); cursor: pointer; line-height: 1;
+    }
+    .modal-avatar {
+      width: 70px; height: 70px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 500; margin-bottom: 14px;
+    }
+    .modal-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px; font-weight: 500; margin-bottom: 4px;
+    }
+    .modal-role { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .modal-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-style: italic; color: var(--text);
+      line-height: 1.65; border-left: 2px solid var(--accent);
+      padding-left: 16px; margin-bottom: 24px;
+    }
+    .modal-info { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .modal-field label {
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-faint); display: block; margin-bottom: 3px;
+    }
+    .modal-field span { font-size: 14px; color: var(--text); }
+
+    /* ── QUOTES ── */
+    .quote-item { padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .quote-item:first-child { border-top: 1px solid var(--border); }
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 21px; font-style: italic; line-height: 1.7;
+      color: var(--text); margin-bottom: 14px;
+    }
+    .quote-meta { display: flex; align-items: center; gap: 10px; }
+    .quote-dot {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 500;
+    }
+    .quote-author-name { font-size: 13px; font-weight: 500; color: var(--text); }
+    .quote-author-sub { font-size: 12px; color: var(--text-faint); }
+
+    /* ── FORM ── */
+    .form-wrap {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; margin-top: 52px;
+    }
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 500; margin-bottom: 6px;
+    }
+    .form-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 500;
+      color: var(--text-muted); margin-bottom: 6px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg); color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; outline: none; transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .btn-submit {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; font-weight: 500; padding: 12px 28px;
+      background: var(--text); color: var(--bg);
+      border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.82; }
+    .form-success {
+      display: none; font-size: 14px; color: var(--accent);
+      margin-top: 12px; font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 48px 40px;
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-faint);
+    }
+    footer strong { color: var(--text-muted); font-weight: 500; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up   { animation: fadeUp 0.65s ease both; }
+    .delay-1   { animation-delay: 0.1s; }
+    .delay-2   { animation-delay: 0.2s; }
+    .delay-3   { animation-delay: 0.32s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .hero-title { font-size: 52px; }
+      .hero-stats { gap: 32px; }
+      .section-wrap { padding: 60px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .modal { padding: 24px; }
+      .modal-info { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#beranda">Extencordoba</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#beranda">Beranda</a></li>
+    <li><a href="#galeri">Galeri</a></li>
+    <li><a href="#anggota">Anggota</a></li>
+    <li><a href="#pesan">Pesan</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleNav()">☰</button>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="beranda">
+  <p class="hero-year fade-up">2024 / 2025</p>
+  <h1 class="hero-title fade-up delay-1">Extencordoba</h1>
+  <p class="hero-desc fade-up delay-2">Tiga tahun penuh cerita, tawa, dan kenangan yang tak terlupakan. Ini milik kita semua.</p>
+  <div class="hero-divider fade-up delay-2"></div>
+  <div class="hero-stats fade-up delay-3">
+    <div style="text-align:center">
+      <div class="hero-stat-num" id="stat-members">32</div>
+      <div class="hero-stat-label">Anggota</div>
+    </div>
+    <div style="text-align:center">
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-label">Momen</div>
+    </div>
+    <div style="text-align:center">
+      <div class="hero-stat-num" id="stat-quotes">3</div>
+      <div class="hero-stat-label">Pesan</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<div style="border-top: 1px solid var(--border);">
+  <div class="section-wrap" id="galeri">
+    <p class="section-tag">Kenangan visual</p>
+    <h2 class="section-title">Galeri Foto</h2>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterGallery('semua',this)">Semua</button>
+      <button class="filter-btn" onclick="filterGallery('kegiatan',this)">Kegiatan</button>
+      <button class="filter-btn" onclick="filterGallery('perjalanan',this)">Perjalanan</button>
+      <button class="filter-btn" onclick="filterGallery('perayaan',this)">Perayaan</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="photo-card" data-cat="kegiatan">
+        <div class="photo-thumb" style="background:#EAF3DE">📚</div>
+        <div class="photo-info"><div class="photo-title">Hari pertama kelas</div><div class="photo-date">September 2024</div></div>
+      </div>
+      <div class="photo-card" data-cat="perjalanan">
+        <div class="photo-thumb" style="background:#E6F1FB">🏕️</div>
+        <div class="photo-info"><div class="photo-title">Study tour Bandung</div><div class="photo-date">November 2024</div></div>
+      </div>
+      <div class="photo-card" data-cat="perayaan">
+        <div class="photo-thumb" style="background:#FAEEDA">🎭</div>
+        <div class="photo-info"><div class="photo-title">Pentas seni sekolah</div><div class="photo-date">Desember 2024</div></div>
+      </div>
+      <div class="photo-card" data-cat="perayaan">
+        <div class="photo-thumb" style="background:#FBEAF0">🎊</div>
+        <div class="photo-info"><div class="photo-title">Perayaan ulang tahun</div><div class="photo-date">Januari 2025</div></div>
+      </div>
+      <div class="photo-card" data-cat="kegiatan">
+        <div class="photo-thumb" style="background:#E1F5EE">🔬</div>
+        <div class="photo-info"><div class="photo-title">Praktikum kimia</div><div class="photo-date">Februari 2025</div></div>
+      </div>
+      <div class="photo-card" data-cat="perjalanan">
+        <div class="photo-thumb" style="background:#FAECE7">🏖️</div>
+        <div class="photo-info"><div class="photo-title">Wisata akhir tahun</div><div class="photo-date">Maret 2025</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MEMBERS ── -->
+<div class="section-bg" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-wrap" id="anggota">
+    <p class="section-tag">Penghuni kelas</p>
+    <h2 class="section-title">Anggota Kelas</h2>
+    <div class="members-grid" id="members-grid"></div>
+  </div>
+</div>
+
+<!-- ── MEMBER MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-avatar" id="m-avatar"></div>
+    <div class="modal-name" id="m-name"></div>
+    <div class="modal-role" id="m-role"></div>
+    <div class="modal-quote" id="m-quote"></div>
+    <div class="modal-info">
+      <div class="modal-field"><label>Impian kuliah</label><span id="m-dream"></span></div>
+      <div class="modal-field"><label>Hobi</label><span id="m-hobby"></span></div>
+      <div class="modal-field"><label>Motto hidup</label><span id="m-motto"></span></div>
+      <div class="modal-field"><label>Angkatan</label><span id="m-batch"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── QUOTES ── -->
+<div class="section-wrap narrow" id="pesan">
+  <p class="section-tag">Dari hati ke hati</p>
+  <h2 class="section-title">Pesan & Kenangan</h2>
+  <div id="quotes-list"></div>
+
+  <!-- FORM -->
+  <div class="form-wrap">
+    <div class="form-title">Tinggalkan Pesanmu</div>
+    <p class="form-sub">Tulis kenangan atau ucapan terbaik untuk teman-teman Extencordoba.</p>
+    <form id="quote-form" onsubmit="submitQuote(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama</label>
+          <input type="text" id="f-name" placeholder="Namamu" required>
+        </div>
+        <div class="form-group">
+          <label>Kelas / Jabatan</label>
+          <input type="text" id="f-class" placeholder="Extencordoba 2025">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Pesanmu</label>
+        <textarea id="f-msg" placeholder="Tulis kenangan atau ucapan terbaikmu..." required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Kirim Pesan →</button>
+      <p class="form-success" id="form-success">✓ Pesanmu berhasil ditambahkan!</p>
+    </form>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:18px;margin-bottom:8px;">Extencordoba</p>
+  <p>Dibuat dengan ❤️ oleh <strong>kelas Extencordoba</strong> · 2025</p>
+  <p style="margin-top:6px;">Kenangan ini milik kita bersama, selamanya.</p>
+</footer>
+
+<script>
+  /* ── DATA: edit bagian ini untuk menambah/ubah anggota ── */
+  const members = [
+    { initials:'AR', name:'Ardi Ramadhan',  role:'Ketua Kelas', bg:'#EAF3DE', tc:'#3B6D11', quote:'Kelas ini adalah rumah keduaku. Terima kasih sudah membuat tiga tahun ini begitu berharga.', dream:'Teknik Informatika UI', hobby:'Basket, coding', motto:'Kerja keras tak pernah mengkhianati.', batch:'2022–2025' },
+    { initials:'DN', name:'Dina Nuraini',   role:'Sekretaris',  bg:'#E6F1FB', tc:'#185FA5', quote:'Kalian bukan sekadar teman sekelas — kalian keluarga yang tidak kupilih sendiri, tapi tetap kusyukuri.', dream:'Psikologi Unpad', hobby:'Membaca, journaling', motto:'Setiap hari adalah halaman baru.', batch:'2022–2025' },
+    { initials:'FH', name:'Faiz Hakim',     role:'Bendahara',   bg:'#FAEEDA', tc:'#854F0B', quote:'Banyak tawa, sedikit PR. Itu cara terbaik menggambarkan kelas ini.', dream:'Ekonomi UGM', hobby:'Gaming, sepak bola', motto:'Nikmati prosesnya.', batch:'2022–2025' },
+    { initials:'RL', name:'Rara Lestari',   role:'Anggota',     bg:'#FBEAF0', tc:'#993556', quote:'Di sini aku belajar bahwa persahabatan sejati tidak perlu dipaksakan — ia tumbuh sendiri.', dream:'Kedokteran UNAIR', hobby:'Melukis, memasak', motto:'Sabar dan konsisten.', batch:'2022–2025' },
+    { initials:'BS', name:'Bagas Surya',    role:'Anggota',     bg:'#E1F5EE', tc:'#0F6E56', quote:'UTBK menanti, tapi kenangan ini yang akan selalu kuingat sepanjang hidup.', dream:'Teknik Sipil ITB', hobby:'Hiking, fotografi', motto:'Alam adalah guru terbaikku.', batch:'2022–2025' },
+    { initials:'NS', name:'Nadia Safira',   role:'Anggota',     bg:'#FAECE7', tc:'#993C1D', quote:'Terima kasih, Extencordoba. Kalian mengajariku arti dari kebersamaan yang sesungguhnya.', dream:'Hukum UGM', hobby:'Debat, menulis puisi', motto:'Suara kecil pun bisa mengubah dunia.', batch:'2022–2025' },
+  ];
+
+  /* ── DATA: pesan awal ── */
+  const seedQuotes = [
+    { name:'Ardi Ramadhan', cls:'Ketua Kelas', bg:'#EAF3DE', tc:'#3B6D11', initials:'AR', text:'Tiga tahun bersama kalian adalah hal terbaik yang pernah terjadi. Semoga kita selalu terhubung, di mana pun kita berada nanti.' },
+    { name:'Dina Nuraini',  cls:'Sekretaris',  bg:'#E6F1FB', tc:'#185FA5', initials:'DN', text:'Kalian bukan sekadar teman sekelas — kalian keluarga. Semoga mimpi kita semua tercapai setelah ini.' },
+    { name:'Faiz Hakim',    cls:'Bendahara',   bg:'#FAEEDA', tc:'#854F0B', initials:'FH', text:'Kantin, koridor, dan kelas Extencordoba — tempat-tempat itu tidak akan pernah sama tanpa kalian semua.' },
+  ];
+
+  const avatarColors = [
+    { bg:'#EAF3DE', tc:'#3B6D11' }, { bg:'#E6F1FB', tc:'#185FA5' },
+    { bg:'#FAEEDA', tc:'#854F0B' }, { bg:'#FBEAF0', tc:'#993556' },
+    { bg:'#E1F5EE', tc:'#0F6E56' }, { bg:'#FAECE7', tc:'#993C1D' },
+  ];
+
+  /* ── RENDER MEMBERS ── */
+  const mgrid = document.getElementById('members-grid');
+  members.forEach((m, i) => {
+    const card = document.createElement('div');
+    card.className = 'member-card';
+    card.onclick = () => openModal(i);
+    card.innerHTML = `
+      <div class="member-avatar" style="background:${m.bg};color:${m.tc}">${m.initials}</div>
+      <div class="member-name">${m.name}</div>
+      <div class="member-role">${m.role}</div>`;
+    mgrid.appendChild(card);
+  });
+  document.getElementById('stat-members').textContent = members.length;
+
+  /* ── RENDER QUOTES ── */
+  const STORAGE_KEY = 'extencordoba_quotes_v1';
+  const ql = document.getElementById('quotes-list');
+
+  function renderQuote(q) {
+    const el = document.createElement('div');
+    el.className = 'quote-item';
+    el.innerHTML = `
+      <p class="quote-text">"${q.text}"</p>
+      <div class="quote-meta">
+        <div class="quote-dot" style="background:${q.bg};color:${q.tc}">${q.initials}</div>
+        <div>
+          <div class="quote-author-name">${q.name}</div>
+          <div class="quote-author-sub">${q.cls || 'Extencordoba'}</div>
+        </div>
+      </div>`;
+    ql.appendChild(el);
+  }
+
+  function updateQuoteCount() {
+    const total = ql.querySelectorAll('.quote-item').length;
+    document.getElementById('stat-quotes').textContent = total;
+  }
+
+  seedQuotes.forEach(renderQuote);
+  const savedQuotes = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  savedQuotes.forEach(renderQuote);
+  updateQuoteCount();
+
+  /* ── GALLERY FILTER ── */
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.photo-card').forEach(card => {
+      card.classList.toggle('hidden', cat !== 'semua' && card.dataset.cat !== cat);
+    });
+  }
+
+  /* ── MEMBER MODAL ── */
+  function openModal(i) {
+    const m = members[i];
+    document.getElementById('m-avatar').textContent = m.initials;
+    document.getElementById('m-avatar').style.cssText = `background:${m.bg};color:${m.tc};width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;margin-bottom:14px`;
+    document.getElementById('m-name').textContent = m.name;
+    document.getElementById('m-role').textContent = m.role;
+    document.getElementById('m-quote').textContent = '\u201C' + m.quote + '\u201D';
+    document.getElementById('m-dream').textContent = m.dream;
+    document.getElementById('m-hobby').textContent = m.hobby;
+    document.getElementById('m-motto').textContent = m.motto;
+    document.getElementById('m-batch').textContent = m.batch;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── FORM SUBMIT ── */
+  function submitQuote(e) {
+    e.preventDefault();
+    const name = document.getElementById('f-name').value.trim();
+    const cls  = document.getElementById('f-class').value.trim();
+    const text = document.getElementById('f-msg').value.trim();
+    const idx  = Math.floor(Math.random() * avatarColors.length);
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const q = { name, cls, text, initials, bg: avatarColors[idx].bg, tc: avatarColors[idx].tc };
+
+    renderQuote(q);
+    updateQuoteCount();
+
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    saved.push(q);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+
+    e.target.reset();
+    const ok = document.getElementById('form-success');
+    ok.style.display = 'block';
+    setTimeout(() => ok.style.display = 'none', 3000);
+    document.getElementById('quotes-list').lastElementChild.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  /* ── NAV MOBILE ── */
+  function toggleNav() {
+    const nl = document.getElementById('nav-links');
+    nl.style.display = nl.style.display === 'flex' ? 'none' : 'flex';
+    nl.style.flexDirection = 'column';
+    nl.style.position = 'absolute';
+    nl.style.top = '58px'; nl.style.left = '0'; nl.style.right = '0';
+    nl.style.background = 'var(--bg)';
+    nl.style.padding = '16px 24px 20px';
+    nl.style.borderBottom = '1px solid var(--border)';
+    nl.style.gap = '16px';
+  }
+</script>
+</body>
+</html>
