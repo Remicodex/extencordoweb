@@ -1,0 +1,139 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .site { font-family: var(--font-sans); background: var(--color-background-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; border: 0.5px solid var(--color-border-tertiary); }
+  
+  .nav { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 52px; }
+  .nav-logo { font-size: 17px; font-weight: 500; color: var(--color-text-primary); letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-link { font-size: 13px; color: var(--color-text-secondary); cursor: pointer; padding: 4px 0; border-bottom: 1.5px solid transparent; transition: color 0.15s; }
+  .nav-link.active { color: var(--color-text-primary); border-bottom-color: var(--color-text-primary); }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .hero { background: var(--color-background-primary); padding: 56px 32px 48px; text-align: center; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .hero-year { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 12px; }
+  .hero-title { font-size: 42px; font-weight: 500; color: var(--color-text-primary); letter-spacing: -1px; line-height: 1.1; }
+  .hero-subtitle { font-size: 14px; color: var(--color-text-secondary); margin-top: 12px; line-height: 1.6; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--color-background-info); color: var(--color-text-info); font-size: 12px; padding: 4px 12px; border-radius: 20px; margin-top: 16px; }
+  .hero-stats { display: flex; gap: 0; margin-top: 36px; justify-content: center; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; max-width: 360px; margin-left: auto; margin-right: auto; }
+  .stat { flex: 1; padding: 16px; text-align: center; background: var(--color-background-secondary); }
+  .stat + .stat { border-left: 0.5px solid var(--color-border-tertiary); }
+  .stat-num { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .stat-label { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.8px; }
+
+  .content { padding: 24px; }
+  .section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 16px; }
+
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .photo-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); overflow: hidden; }
+  .photo-img { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  .photo-caption { padding: 8px 10px; }
+  .photo-caption p { font-size: 12px; color: var(--color-text-secondary); }
+  .photo-caption span { font-size: 11px; color: var(--color-text-tertiary); display: block; margin-top: 2px; }
+
+  .members-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .member-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px; text-align: center; }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; margin: 0 auto 10px; }
+  .member-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .member-role { font-size: 11px; color: var(--color-text-tertiary); margin-top: 3px; }
+  .member-quote-tag { font-size: 11px; color: var(--color-text-secondary); margin-top: 8px; font-style: italic; line-height: 1.4; }
+
+  .quotes-list { display: flex; flex-direction: column; gap: 12px; }
+  .quote-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px 20px; display: flex; gap: 14px; align-items: flex-start; }
+  .quote-avatar { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; }
+  .quote-body { flex: 1; }
+  .quote-text { font-size: 14px; color: var(--color-text-primary); line-height: 1.6; font-family: var(--font-serif); }
+  .quote-author { font-size: 12px; color: var(--color-text-tertiary); margin-top: 8px; }
+
+  .btn-add { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); border: 0.5px dashed var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 10px 16px; cursor: pointer; margin-top: 12px; width: 100%; justify-content: center; background: none; }
+  .btn-add:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+</style>
+
+<h2 class="sr-only">Prototipe website kenangan kelas Extencordoba — menampilkan hero, galeri foto, profil anggota, dan halaman pesan.</h2>
+
+<div class="site">
+  <nav class="nav">
+    <span class="nav-logo">Extencordoba</span>
+    <div class="nav-links">
+      <span class="nav-link active" onclick="switchTab('home', this)">Beranda</span>
+      <span class="nav-link" onclick="switchTab('gallery', this)">Galeri</span>
+      <span class="nav-link" onclick="switchTab('members', this)">Anggota</span>
+      <span class="nav-link" onclick="switchTab('quotes', this)">Pesan</span>
+    </div>
+  </nav>
+
+  <div id="tab-home" class="section active">
+    <div class="hero">
+      <p class="hero-year">2024 / 2025</p>
+      <h1 class="hero-title">Extencordoba</h1>
+      <p class="hero-subtitle">Satu kelas, satu cerita, selamanya.</p>
+      <div class="hero-badge"><i class="ti ti-map-pin" aria-hidden="true"></i> SMA ...</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">32</div><div class="stat-label">Anggota</div></div>
+        <div class="stat"><div class="stat-num">48</div><div class="stat-label">Foto</div></div>
+        <div class="stat"><div class="stat-num">32</div><div class="stat-label">Pesan</div></div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="section-label">Terbaru</p>
+      <div class="gallery-grid">
+        <div class="photo-card"><div class="photo-img" style="background:#EAF3DE;">🎓</div><div class="photo-caption"><p>Hari pertama kelas</p><span>Sep 2024</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#E6F1FB;">🏕️</div><div class="photo-caption"><p>Study tour Bandung</p><span>Nov 2024</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#FAEEDA;">🎭</div><div class="photo-caption"><p>Pentas seni sekolah</p><span>Des 2024</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-gallery" class="section">
+    <div class="content">
+      <p class="section-label">Semua foto</p>
+      <div class="gallery-grid">
+        <div class="photo-card"><div class="photo-img" style="background:#EAF3DE;">🎓</div><div class="photo-caption"><p>Hari pertama kelas</p><span>Sep 2024</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#E6F1FB;">🏕️</div><div class="photo-caption"><p>Study tour Bandung</p><span>Nov 2024</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#FAEEDA;">🎭</div><div class="photo-caption"><p>Pentas seni</p><span>Des 2024</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#FBEAF0;">🎊</div><div class="photo-caption"><p>Perayaan ulang tahun</p><span>Jan 2025</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#E1F5EE;">📚</div><div class="photo-caption"><p>Belajar bareng</p><span>Feb 2025</span></div></div>
+        <div class="photo-card"><div class="photo-img" style="background:#FAECE7;">🏆</div><div class="photo-caption"><p>Juara lomba</p><span>Mar 2025</span></div></div>
+      </div>
+      <button class="btn-add" onclick="sendPrompt('Tambahkan bagian upload foto ke website Extencordoba')"><i class="ti ti-plus" aria-hidden="true"></i> Tambah foto</button>
+    </div>
+  </div>
+
+  <div id="tab-members" class="section">
+    <div class="content">
+      <p class="section-label">Anggota kelas</p>
+      <div class="members-grid">
+        <div class="member-card"><div class="avatar" style="background:#EAF3DE;color:#3B6D11;">AR</div><div class="member-name">Ardi R.</div><div class="member-role">Ketua kelas</div><div class="member-quote-tag">"Kelas ini rumah keduaku."</div></div>
+        <div class="member-card"><div class="avatar" style="background:#E6F1FB;color:#185FA5;">DN</div><div class="member-name">Dina N.</div><div class="member-role">Sekretaris</div><div class="member-quote-tag">"Kenangan tak pernah pudar."</div></div>
+        <div class="member-card"><div class="avatar" style="background:#FAEEDA;color:#854F0B;">FH</div><div class="member-name">Faiz H.</div><div class="member-role">Bendahara</div><div class="member-quote-tag">"Banyak tawa, sedikit PR."</div></div>
+        <div class="member-card"><div class="avatar" style="background:#FBEAF0;color:#993556;">RL</div><div class="member-name">Rara L.</div><div class="member-role">Anggota</div><div class="member-quote-tag">"Sahabat terbaik di sini."</div></div>
+        <div class="member-card"><div class="avatar" style="background:#E1F5EE;color:#0F6E56;">BS</div><div class="member-name">Bagas S.</div><div class="member-role">Anggota</div><div class="member-quote-tag">"UTBK, kita siap!"</div></div>
+        <div class="member-card"><div class="avatar" style="background:#FAECE7;color:#993C1D;">NS</div><div class="member-name">Nadia S.</div><div class="member-role">Anggota</div><div class="member-quote-tag">"Terima kasih semuanya."</div></div>
+      </div>
+      <button class="btn-add" onclick="sendPrompt('Tambahkan halaman profil lengkap untuk setiap anggota kelas Extencordoba')"><i class="ti ti-plus" aria-hidden="true"></i> Tambah anggota</button>
+    </div>
+  </div>
+
+  <div id="tab-quotes" class="section">
+    <div class="content">
+      <p class="section-label">Pesan & kenangan</p>
+      <div class="quotes-list">
+        <div class="quote-card"><div class="quote-avatar" style="background:#EAF3DE;color:#3B6D11;">AR</div><div class="quote-body"><p class="quote-text">"Tiga tahun bersama kalian adalah hal terbaik yang pernah terjadi dalam hidupku. Semoga kita selalu terhubung, di mana pun kita berada."</p><p class="quote-author">— Ardi R., Ketua kelas</p></div></div>
+        <div class="quote-card"><div class="quote-avatar" style="background:#E6F1FB;color:#185FA5;">DN</div><div class="quote-body"><p class="quote-text">"Kalian bukan sekadar teman sekelas — kalian keluarga. Semoga mimpi kita semua tercapai setelah ini."</p><p class="quote-author">— Dina N.</p></div></div>
+        <div class="quote-card"><div class="quote-avatar" style="background:#FAEEDA;color:#854F0B;">FH</div><div class="quote-body"><p class="quote-text">"Kantin, koridor, dan kelas 11B — tempat-tempat itu tidak akan pernah sama tanpa kalian semua."</p><p class="quote-author">— Faiz H.</p></div></div>
+      </div>
+      <button class="btn-add" onclick="sendPrompt('Tambahkan formulir agar anggota Extencordoba bisa menulis pesan mereka sendiri di website')"><i class="ti ti-plus" aria-hidden="true"></i> Tambah pesan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tab, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  el.classList.add('active');
+}
+</script>
